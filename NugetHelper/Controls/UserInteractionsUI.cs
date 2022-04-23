@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -8,7 +7,13 @@ namespace NugetHelper.Controls
 {
     public static class UserInteractionsUI
     {
-
+        /// <summary>
+        /// Shows the user an indication 
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns>
+        /// The <see cref="ConsoleKeyInfo"/> of the pressed key by the user
+        /// </returns>
         public static ConsoleKeyInfo GetKeyInfoFromConsole(string message)
         {
             DisplayToolsUI.WriteMessage(message);
@@ -20,12 +25,45 @@ namespace NugetHelper.Controls
         /// Generates available options and tasks that are available in the software
         /// </summary>
         /// <returns>
-        /// True if program must continue running
+        /// <see langword="true"/> if the command is valid
         /// </returns>
-        public static bool GetTaskToBeRun(out OptionsToRun optionToBeExecuted)
+        public static bool ExecuteCommand(out Commands optionToBeExecuted)
         {
-            optionToBeExecuted = GetSelectionFromEnum<OptionsToRun>(SplitOptions.ByUpperCase);
-            return optionToBeExecuted != OptionsToRun.CloseNugetHelper;
+            optionToBeExecuted = GetSelectionFromEnum<Commands>(SplitOptions.ByUpperCase);
+            return optionToBeExecuted != Commands.Exit;
+        }
+
+        public static Dictionary<Commands, List<string>> GetCommands(string[] args)
+        {
+            Dictionary<Commands, List<string>> commandDictionary = new Dictionary<Commands, List<string>>();
+
+            if (args.Length > 0) 
+            {
+                for (int i = 0; i < args.Length; i++)
+                {
+                    if (args[i].IsCommand() && Enum.TryParse(args[i].RemoveHeaderFlag(), out Commands selectedCommand))
+                    {
+                        if (commandDictionary.ContainsKey(selectedCommand) == false)
+                        {
+                            commandDictionary.Add(selectedCommand, new List<string>());
+                        }
+                        for (int j = i + 1; j < args.Length; j++) 
+                        {
+                            if (args[j].IsCommand())
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                commandDictionary[selectedCommand].Add(args[j]);
+                            }
+                        }  
+                    }
+                }
+              
+                return commandDictionary;
+            }
+            throw new ArgumentException("No arguments provided");
         }
 
         public static T GetSelectionFromEnum<T>(SplitOptions splitOption = SplitOptions.None) where T : Enum

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -11,12 +12,46 @@ namespace NugetHelper.Controls
         /// </summary>
         public static void WriteWelcome()
         {
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"This software will automate your tasks in Tia portal");
-            Console.WriteLine($"Pematech GmbH");
-            Console.WriteLine($"Author: Diplm-Ing. Miguel Angel Sanchez Aguilar, M. Sc.\n");
-            Console.ResetColor();
-            WriteMessage("Press any key to continue ...");
+            int filler = 5;
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+
+            Console.WriteLine($"\nWelcome to the NugetHelper\n");
+
+            Console.WriteLine($"This helper will automate your push operations making easy to read Assembly versions of your nuget packages\n");
+
+            Console.WriteLine("The following commands are available:\n");
+
+            foreach (Commands item in Enum.GetValues(typeof(Commands)))
+            {
+                Console.WriteLine($"-{item}:\n");
+
+                switch (item)
+                {
+                    case Commands.Path:
+                        Console.WriteLine($"{StringTools.GenerateSpaceString(filler)}The command {item} is used to define the location of the \"Nuget.exe\" file that will allow us" +
+                            "to perform the operations with your Artifact or Repository\n");
+                        break;
+                    case Commands.Feed:
+                        Console.WriteLine($"{StringTools.GenerateSpaceString(filler)}The command {item} is used to define the address of your repository\n");
+                        break;
+                    case Commands.Push:
+                        Console.WriteLine($"{StringTools.GenerateSpaceString(filler)}The command {item} is used to push to the selected feed\n");
+                        break;
+                    case Commands.Update:
+                        Console.WriteLine($"{StringTools.GenerateSpaceString(filler)}The command {item} is used to update a package with the selected id, if a feed is not selected" +
+                            $"it will try every nuget repository, if a feed is selected it will only try the selected feed\n");
+                        break;
+                    case Commands.PackageId:
+                        Console.WriteLine($"{StringTools.GenerateSpaceString(filler)}The command {item} is used to define a package id used for updating purposes\n");
+                        break;
+                    case Commands.Exit:
+                        Console.WriteLine($"{StringTools.GenerateSpaceString(filler)}The command {item} is used to close the app\n");
+                        break;
+                    default:
+                        break;
+                }
+            }
             Console.ReadKey();
             Console.Clear();
         }
@@ -31,6 +66,8 @@ namespace NugetHelper.Controls
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"Error number {errorCode}: {errorText}");
             Console.ResetColor();
+            Logger log = LogManager.GetCurrentClassLogger();
+            log.Error(errorText);
         }
 
         /// <summary>
@@ -42,6 +79,8 @@ namespace NugetHelper.Controls
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(errorText);
             Console.ResetColor();
+            Logger log = LogManager.GetCurrentClassLogger();
+            log.Error(errorText);
         }
 
         /// <summary>

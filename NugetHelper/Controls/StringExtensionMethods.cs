@@ -90,6 +90,42 @@ namespace NugetHelper.Controls
                 $"position");
         }
 
+        /// <summary>
+        /// Checks if the selected argument is a commnad
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns>
+        /// <see langword="true"/> if the <paramref name="command"/> starts with "-"
+        /// </returns>
+        public static bool IsCommand(this string command)
+        {
+            return command.StartsWith(StringConstants.commandHeaderFlag);
+        }
+
+        /// <summary>
+        /// Adds the header text to the <paramref name="command"/> and removes the parameter flag "-"
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns>
+        /// A <see cref="string"/> containing the name of the command to be used to call a method from the main class
+        /// </returns>
+        public static string GetCommand(this string command)
+        {
+            return $"{StringConstants.commandHeaderText}{command.Replace(StringConstants.commandHeaderFlag, "")}";
+        }
+
+        /// <summary>
+        /// Removes the header flag from the command 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns>
+        /// A <see cref="string"/> without header flag "-" 
+        /// </returns>
+        public static string RemoveHeaderFlag(this string command)
+        {
+            return command.Replace(StringConstants.commandHeaderFlag, "");
+        }
+
 
     }
 }
