@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.32414.318
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32413.511
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetHelper", "NugetHelper\NugetHelper.csproj", "{D36F11EB-A781-4617-BA69-8624154D2AA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetHelper.Tests", "NugetHelper.Tests\NugetHelper.Tests.csproj", "{94264023-3B11-4A88-9477-F298CC42929B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D36F11EB-A781-4617-BA69-8624154D2AA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D36F11EB-A781-4617-BA69-8624154D2AA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D36F11EB-A781-4617-BA69-8624154D2AA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94264023-3B11-4A88-9477-F298CC42929B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94264023-3B11-4A88-9477-F298CC42929B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94264023-3B11-4A88-9477-F298CC42929B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94264023-3B11-4A88-9477-F298CC42929B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
