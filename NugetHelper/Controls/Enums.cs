@@ -6,11 +6,12 @@
     /// </summary>
     public enum Commands : short
     {
-        Path,
+        NugetExePath,
         Feed,
         Push,
         Update,
         PackageId,
+        MovePackToPath,
         Exit
      
     }

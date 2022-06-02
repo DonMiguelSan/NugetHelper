@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NugetHelper.BussinessLogic;
+using System;
 
 namespace NugetHelper
 {
@@ -13,43 +9,15 @@ namespace NugetHelper
         {
             try
             {
-                if (args.Length > 0)
-                {
-                    if (args[0].Equals("NugetStart", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        StartNuget(args[1]);
-                    }
-                    else
-                    {
-                        throw new ArgumentException("No valid arguments were provided");
-                    }
-                }
-                else
-                {
-                    throw new ArgumentNullException();
-                }
+                Bootstrapper bootstrapper = new Bootstrapper();
+
+                bootstrapper.Start(args);
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                Console.WriteLine($"{Ex.Message}:{Ex.StackTrace}");
-                
+                Console.WriteLine($"{ex.Message}:{ex.StackTrace}");
+                throw new Exception("Exception", ex);
             }
-        }
-
-        static void StartNuget(string path)
-        {
-            Console.WriteLine("Nuget is starting");
-
-            ProcessStartInfo startinfo = new ProcessStartInfo(path)
-            {
-                CreateNoWindow = false,
-                UseShellExecute = false
-            };
-
-            Process p = Process.Start(startinfo);
-
-            p.WaitForExit();           
-
         }
 
     }

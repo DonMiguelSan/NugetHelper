@@ -1,3 +1,4 @@
+using NugetHelper.BussinessLogic;
 using NugetHelper.Controls;
 using System;
 using System.Collections.Generic;
@@ -6,13 +7,13 @@ using Xunit;
 
 namespace NugetHelper.Tests
 {
-    public class UserInteractionsUITests
+    public class ArgumentTools
     {
         [Fact]
         public void GetCommandsTest()
         {
-            Dictionary<Commands, List<string>> actual = 
-                UserInteractionsUI.GetCommands(GetSimulatedArgs(out int expectedNumberOfCommands));
+            Dictionary<Commands, List<string>> actual =
+                GetSimulatedArgs(out int expectedNumberOfCommands).GetCommands();
 
             // Compares the number of commands Actual vs Expected
             Assert.Equal(expectedNumberOfCommands, actual.Keys.Count);
@@ -29,7 +30,7 @@ namespace NugetHelper.Tests
         {
             List<string> arguments = new List<string>()
             {
-                "-Path",
+                "-NugetExePath",
                 "C:\\nuget.exe",
                 "-Feed",
                 "MyFeed",
@@ -40,11 +41,30 @@ namespace NugetHelper.Tests
                 "-Exit"
             };
 
-            numberOfCommands = arguments.Where(x=>x.StartsWith(StringConstants.commandHeaderFlag)).Count();
+            numberOfCommands = arguments.Where(x => x.StartsWith(StringConstants.commandHeaderFlag)).Count();
 
             string[] output = arguments.ToArray();
 
             return output;
         }
+
+        [Fact]
+        public void IsNugetPathAvailableTest()
+        {
+            var commandAvailable = GetSimulatedArgs(out _).GetCommands();
+            Assert.True(commandAvailable.IsNugetPathAvailable());
+        }
+
+        [Theory]
+        [InlineData(new string[] { "-NugetExePath","C:\\nuget.exe " }  , true)]
+        [InlineData(new string[] { "-NugetExePath" }, false)]
+        [InlineData(new string[] { "-Exit" }, true)]
+        [InlineData(new string[] { "-Update" }, true)]
+        [InlineData(new string[] { "-NugetExePath", "C:\\nuget.exe", "-Push", "","-Update"}, true)]
+        public void CommandValidatorTest( string[] args, bool expected)
+        {
+            Assert.Equal(expected, args.GetCommands().ValidateCommandArgs());
+        }
+
     }
 }

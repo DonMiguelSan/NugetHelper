@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+
+// TODO: Refactor class and break it into different classes 
 namespace NugetHelper.Controls
 {
     public static class UserInteractionsUI
@@ -31,39 +33,6 @@ namespace NugetHelper.Controls
         {
             optionToBeExecuted = GetSelectionFromEnum<Commands>(SplitOptions.ByUpperCase);
             return optionToBeExecuted != Commands.Exit;
-        }
-
-        public static Dictionary<Commands, List<string>> GetCommands(string[] args)
-        {
-            Dictionary<Commands, List<string>> commandDictionary = new Dictionary<Commands, List<string>>();
-
-            if (args.Length > 0) 
-            {
-                for (int i = 0; i < args.Length; i++)
-                {
-                    if (args[i].IsCommand() && Enum.TryParse(args[i].RemoveHeaderFlag(), out Commands selectedCommand))
-                    {
-                        if (commandDictionary.ContainsKey(selectedCommand) == false)
-                        {
-                            commandDictionary.Add(selectedCommand, new List<string>());
-                        }
-                        for (int j = i + 1; j < args.Length; j++) 
-                        {
-                            if (args[j].IsCommand())
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                commandDictionary[selectedCommand].Add(args[j]);
-                            }
-                        }  
-                    }
-                }
-              
-                return commandDictionary;
-            }
-            throw new ArgumentException("No arguments provided");
         }
 
         public static T GetSelectionFromEnum<T>(SplitOptions splitOption = SplitOptions.None) where T : Enum
@@ -151,7 +120,7 @@ namespace NugetHelper.Controls
                 {
                     DisplayToolsUI.ClearCurrentConsoleLine();
                     DisplayToolsUI.WriteError("The selected option is not valid");
-                    GetSelectedObject<T>(collection);
+                    GetSelectedObject(collection);
                 }
 
                 DisplayToolsUI.ClearCurrentConsoleLine();

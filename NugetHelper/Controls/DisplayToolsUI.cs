@@ -8,13 +8,11 @@ namespace NugetHelper.Controls
     public static class DisplayToolsUI
     {
         /// <summary>
-        /// Writes a welcome message to the console
+        /// Writes a welcome message to the console, giving a short description of every command available
         /// </summary>
         public static void WriteWelcome()
         {
             int filler = 5;
-
-            Console.ForegroundColor = ConsoleColor.DarkGray;
 
             Console.WriteLine($"\nWelcome to the NugetHelper\n");
 
@@ -24,11 +22,13 @@ namespace NugetHelper.Controls
 
             foreach (Commands item in Enum.GetValues(typeof(Commands)))
             {
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine($"-{item}:\n");
+                Console.ForegroundColor = ConsoleColor.Gray;
 
                 switch (item)
                 {
-                    case Commands.Path:
+                    case Commands.NugetExePath:
                         Console.WriteLine($"{StringTools.GenerateSpaceString(filler)}The command {item} is used to define the location of the \"Nuget.exe\" file that will allow us" +
                             "to perform the operations with your Artifact or Repository\n");
                         break;
@@ -44,6 +44,10 @@ namespace NugetHelper.Controls
                         break;
                     case Commands.PackageId:
                         Console.WriteLine($"{StringTools.GenerateSpaceString(filler)}The command {item} is used to define a package id used for updating purposes\n");
+                        break;
+                    case Commands.MovePackToPath:
+                        Console.WriteLine($"{StringTools.GenerateSpaceString(filler)}The command {item} is used to provide a path to move created nuget packages, if the " +
+                            $"path is not available, the package is not moved from the solution\n");
                         break;
                     case Commands.Exit:
                         Console.WriteLine($"{StringTools.GenerateSpaceString(filler)}The command {item} is used to close the app\n");

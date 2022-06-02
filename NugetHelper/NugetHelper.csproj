@@ -51,6 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BussinessLogic\ArgumentTools.cs" />
+    <Compile Include="BussinessLogic\Bootstrapper.cs" />
+    <Compile Include="Controls\DictionaryExtensionMethods.cs" />
     <Compile Include="Controls\StringConstants.cs" />
     <Compile Include="Controls\DisplayToolsUI.cs" />
     <Compile Include="Controls\Enums.cs" />
